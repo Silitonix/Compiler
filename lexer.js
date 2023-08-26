@@ -1,10 +1,27 @@
-let _input = '';
-let _cursor = 0;
-let _col = 0;
-let _row = 0;
-let _char = '';
+class lexer {
+  cursor = 0;
+  col = 0;
+  row = 0;
+  buffer;
 
-function lexer () {
+  get char () { return code[ this.cursor ]; }
+  same ( value ) {
+    console.log( typeof value );
+  }
 
-  console.log( ' _' );
+  push ( count = 1 ) {
+    for ( let i = 0; i < count; i++ ) {
+      if ( char.match( regex.newline ) ) {
+        this.col = 1;
+        this.row++;
+        this.cursor++;
+        return true;
+      }
+      this.col++;
+      this.cursor++;
+    }
+  }
+
+  constructor () {
+  }
 }
