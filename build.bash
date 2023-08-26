@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo \
- "\
+ " const args = '$@'.split()\
  $(cat errors.js | sed "s/ _/ errors/g") \
  $(cat lexer.js | sed "s/ _/ lexer_/g") \
  $(cat parser.js | sed "s/ _/ parser_/g") \
