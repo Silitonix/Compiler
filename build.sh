@@ -2,7 +2,7 @@
 IFS=','
 
 echo \
-" const args = '$*'.split('$IFS');\
+"undefined=false;\n const args = '$*'.split('$IFS');\
 \n const code = \`$( [ $# -gt 0 ] && [ -f $1 ] && cat $1)\`
 \n $(cat errors.js | sed "s/ _/ errors/g") \
 \n $(cat console.js | sed "s/ _/ console/g") \

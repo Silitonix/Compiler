@@ -3,7 +3,7 @@ class Lexer {
   col = 0;
   row = 0;
   buffer;
-  state = { start: 0, row: 0, col: 0, char: '' };
+  memory = { start: 0, row: 0, col: 0, char: '' };
 
   get char () { return code[ this.cursor ]; }
   get end () { return !( this.cursor < code.length ); }
@@ -12,7 +12,7 @@ class Lexer {
     state.char = this.char;
     state.row = this.row;
     state.col = this.col;
-    return this.state;
+    return this.memory;
   }
 
 
@@ -25,14 +25,12 @@ class Lexer {
     }
     this.col++;
     this.cursor++;
-    return false;
   }
 
-  same ( value ) {
+  same ( str ) {
     if ( end ) return false;
-    if ( typeof value == "string" ) return this.char == value;
-    if ( typeof value == "object" ) return code.match( value );
-    return false;
+    if ( typeof str == "object" ) return code.match( str );
+    if ( typeof str == "string" ) return code.substring( this.cursor, str.length ) == str;
   }
 
   get ignore () {
@@ -41,40 +39,53 @@ class Lexer {
       if ( this.same( Regex.momment ) ) do this.push; while ( !this.same( Regex.momment ) );
       if ( this.push ) return this.buffer = Token.break;
     }
-    return false;
   }
 
   set token ( type ) {
-    const start = this.state.start;
-    const end = this.state.start;
-    const col = this.state.col;
-    const row = this.state.row;
+    const start = this.memory.start;
+    const end = this.memory.start;
+    const col = this.memory.col;
+    const row = this.memory.row;
 
     const data = code.substring( start, end );
     const len = data.length;
 
     this.buffer = new Token( type, data, col, row, len );
-  }
-
-  get keyword () {
-    if ( !this.same( Regex.keystart ) ) return false;
-    this.save;
-    while ( this.same( Regex.keybody ) ) this.push;
-    this.token = TokenT.keyword;
     return true;
   }
 
-  get number () {
-    if(!this.same(Regex.numstart)) return;
+  get keyword () {
+    if ( !this.same( Regex.keystart ) ) return;
+    this.save;
+    do this.push; while ( this.same( Regex.keybody ) );
+    return this.token = TokenT.keyword;
   }
+
+  get number () {
+    if ( !this.same( Regex.numstart ) ) return;
+  }
+
+  get string () {
+    if ( !this.same( Regex.keystart ) ) return;
+    this.save;
+    do this.push; while ( !this.same( this.memory.char ) );
+    return this.token = TokenT.string;
+  }
+
+  get operators () {
+
+  }
+
 
   scan () {
     if ( this.ignore ) return this.buffer;
     if ( this.keyword ) return this.buffer;
-    if ( this.keyword ) return this.buffer;
+    if ( this.number ) return this.buffer;
+    if ( this.string ) return this.buffer;
+    if ( this.operators ) return this.buffer;
   }
 
   constructor () {
-    console.log( this.state );
+    console.log( this.memory );
   }
 }
