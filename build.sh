@@ -1,28 +1,28 @@
 #!/bin/sh
 
-# Store and change the IFS variable
+# STORE AND CHANGE THE IFS VARIABLE
 DefaultIFS=$IFS
 IFS=','
 
-# Read code from a file and if not exist, set code to empty
+# READ CODE FROM A FILE AND IF NOT EXIST, SET CODE TO EMPTY
 code="const code = \`$([ $# -gt 0 ] && [ -f $1 ] && cat $1 || echo '¡')\`;";
 
-# List all arguments and convert them to an array
+# LIST ALL ARGUMENTS AND CONVERT THEM TO AN ARRAY
 args="const args = \`$*\`.split('$IFS');";
 
-# Define file and directory paths
+# DEFINE FILE AND DIRECTORY PATHS
 outputDirectory="build"
-sourceDirectory="src"
+sourceDirectory="source"
 outputScript="$outputDirectory/compiler.js"
 
-# Create build directory if not exist
+# CREATE BUILD DIRECTORY IF NOT EXIST
 mkdir -p $outputDirectory;
 
-# Write code to output file
+# WRITE CODE TO OUTPUT FILE
 echo $code > $outputScript
 echo $args >> $outputScript
 
-# Concatenating the script to the output file
+# CONCATENATING THE SCRIPT TO THE OUTPUT FILE
 cat "$sourceDirectory/console.js" >> $outputScript
 cat "$sourceDirectory/errors.js" >> $outputScript
 cat "$sourceDirectory/tokent.js" >> $outputScript
@@ -32,8 +32,8 @@ cat "$sourceDirectory/lexer.js" >> $outputScript
 cat "$sourceDirectory/parser.js" >> $outputScript
 cat "$sourceDirectory/emitter.js" >> $outputScript
 
-# Run the node js with output
+# RUN THE NODE JS WITH OUTPUT
 node $outputScript
 
-# Restore default value of IFS
+# RESTORE DEFAULT VALUE OF IFS
 IFS=$DefaultIFS
