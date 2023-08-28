@@ -1,5 +1,5 @@
 class Token {
-  static break = new Token( enum_token.break );
+  static break = new Token( TokenT.break );
 
   constructor ( type, data, col, row, len ) {
     this.type = type;

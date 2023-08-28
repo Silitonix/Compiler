@@ -1,17 +1,14 @@
 #!/bin/sh
 IFS=','
+code="const code = \`$([ $# -gt 0 ] && [ -f $1 ] && cat $1 || echo '¡')\`;";
+args="const args = \`$*\`.split('$IFS');";
 
-echo \
-"undefined=false;\n const args = '$*'.split('$IFS');\
-\n const code = \`$( [ $# -gt 0 ] && [ -f $1 ] && cat $1)\`
-\n $(cat errors.js | sed "s/ _/ errors/g") \
-\n $(cat console.js | sed "s/ _/ console/g") \
-\n $(cat tokent.js | sed "s/ _/ tokent_/g") \
-\n $(cat token.js | sed "s/ _/ token_/g") \
-\n $(cat lexer.js | sed "s/ _/ lexer_/g") \
-\n $(cat parser.js | sed "s/ _/ parser_/g") \
-\n $(cat emitter.js | sed "s/ _/ emitter_/g") \
-\n $(cat compiler.js | sed "s/ _/ compiler_/g") \
-" | node
-
-IFS=' '
+echo $code $args > build/compiler.js
+cat console.js >> build/compiler.js
+cat errors.js >> build/compiler.js
+cat tokent.js >> build/compiler.js
+cat token.js >> build/compiler.js
+cat regex.js >> build/compiler.js
+cat lexer.js >> build/compiler.js
+cat parser.js >> build/compiler.js
+cat emitter.js >> build/compiler.js

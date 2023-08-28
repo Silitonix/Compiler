@@ -16,7 +16,7 @@ class Parser {
   }
 
   get trace () {
-    
+
   }
 
   constructor () {
