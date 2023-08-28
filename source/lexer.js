@@ -46,9 +46,12 @@ class Lexer {
     const end = this.memory.start;
     const col = this.memory.col;
     const row = this.memory.row;
-
-    const data = code.substring( start, end );
     const len = data.length;
+
+    let data = code.substring( start, end );
+
+    if ( type == TokenT.number ) data = Number( data );
+    if ( data == NaN ) Console.error( "INVALID NUMBER : ", "Number can't be parsed" );
 
     this.buffer = new Token( type, data, col, row, len );
     return true;
@@ -63,7 +66,12 @@ class Lexer {
 
   get number () {
     if ( !this.same( Regex.numstart ) ) return;
-    
+    if ( this.same( Regex.hexstart ) || this.same( Regex.binstart ) ) {
+      this.push;
+      do this.push; while ( this.same( Regex.hexbody ) );
+      this.tokenize = TokenT.number;
+    }
+
   }
 
   get string () {

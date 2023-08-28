@@ -10,7 +10,7 @@ class Parser {
     this.token = this.lexer.scan();
     this.data = this.token.data;
     this.col = this.token.col;
-    this.col = this.token.col;
+    this.row = this.token.row;
 
     return this.token;
   }

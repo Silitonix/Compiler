@@ -6,5 +6,7 @@ class Regex {
   static keystart = /[\p{Letter}\p{Emoji}_]/u;
   static keybody = /[\p{Letter}\p{Emoji}_0-9]/u;
   static numstart = /[0-9.]/
+  static hexstart = "0x"
+  static binstart = "0b"
 }
 

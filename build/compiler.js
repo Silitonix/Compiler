@@ -1,5 +1,5 @@
 const code = `¡`;
-const args = `adsfkjasd askdfjksadf`.split(' ');
+const args = ``.split(' ');
 class Colors {
   static black = 0;
   static red = 1;
@@ -12,11 +12,24 @@ class Colors {
 }
 
 class Console {
-  static title ( source, color = Colors.black ) {
-    console.log( '\x1b[1;%sm%s\x1b[0m', source, 30 + color );
+  static title ( source, color = Colors.white ) {
+    console.log( `\n\x1b[1;${color+30}m${source}\x1b[0m` );
+  }
+  static print ( source, color = Colors.black ) {
+    console.log( `\x1b[0;${color+30}m${source}\x1b[0m` );
   }
   static error ( title, msg ) {
-    console.log( '\\n\x1b[1;31m%s\x1b[0m%s\\n', title, msg );
+    console.log( '\n\x1b[1;31m%s\x1b[0m%s\n', title, msg );
+    process.exit();
+  }
+  static help(){
+    Console.title("Silitonix compiler");
+    Console.print("this help show if dont use any argmment or has help flag");
+
+    Console.title("FLAGS\t: ",Colors.purple);
+    Console.print("help\t: -h\t--help");
+
+    process.exit();
   }
 }
 class TokenT {
@@ -47,6 +60,8 @@ class Token {
   static keystart = /[\p{Letter}\p{Emoji}_]/u;
   static keybody = /[\p{Letter}\p{Emoji}_0-9]/u;
   static numstart = /[0-9.]/
+  static hexstart = "0x"
+  static binstart = "0b"
 }
 
 class Lexer {
@@ -97,9 +112,12 @@ class Lexer {
     const end = this.memory.start;
     const col = this.memory.col;
     const row = this.memory.row;
-
-    const data = code.substring( start, end );
     const len = data.length;
+
+    let data = code.substring( start, end );
+
+    if ( type == TokenT.number ) data = Number( data );
+    if ( data == NaN ) Console.error( "INVALID NUMBER : ", "Number can't be parsed" );
 
     this.buffer = new Token( type, data, col, row, len );
     return true;
@@ -114,7 +132,12 @@ class Lexer {
 
   get number () {
     if ( !this.same( Regex.numstart ) ) return;
-    
+    if ( this.same( Regex.hexstart ) || this.same( Regex.binstart ) ) {
+      this.push;
+      do this.push; while ( this.same( Regex.hexbody ) );
+      this.tokenize = TokenT.number;
+    }
+
   }
 
   get string () {
@@ -153,7 +176,7 @@ class Parser {
     this.token = this.lexer.scan();
     this.data = this.token.data;
     this.col = this.token.col;
-    this.col = this.token.col;
+    this.row = this.token.row;
 
     return this.token;
   }
@@ -167,3 +190,11 @@ class Parser {
   }
 }
 
+if (
+  args.includes( '-h' ) ||
+  args.includes( '--help' ) ||
+  args[0] === ''
+) {
+  Console.help();
+}
+if ( code == `¡` ) Console.error( "INVALID PATH : ", "I can't find your file !" );

@@ -31,9 +31,10 @@ cat "$sourceDirectory/regex.js" >> $outputScript
 cat "$sourceDirectory/lexer.js" >> $outputScript
 cat "$sourceDirectory/parser.js" >> $outputScript
 cat "$sourceDirectory/emitter.js" >> $outputScript
+cat "$sourceDirectory/compiler.js" >> $outputScript
 
 # RUN THE NODE JS WITH OUTPUT
-node $outputScript
+node $outputScript 
 
 # RESTORE DEFAULT VALUE OF IFS
 IFS=$DefaultIFS
