@@ -1,4 +1,5 @@
-const code = `¡`; const args = `adsfkjasd askdfjksadf`.split(' ');
+const code = `¡`;
+const args = `adsfkjasd askdfjksadf`.split(' ');
 class Colors {
   static black = 0;
   static red = 1;

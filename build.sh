@@ -1,14 +1,23 @@
 #!/bin/sh
 IFS=','
+
 code="const code = \`$([ $# -gt 0 ] && [ -f $1 ] && cat $1 || echo '¡')\`;";
 args="const args = \`$*\`.split('$IFS');";
 
-echo $code $args > build/compiler.js
-cat console.js >> build/compiler.js
-cat errors.js >> build/compiler.js
-cat tokent.js >> build/compiler.js
-cat token.js >> build/compiler.js
-cat regex.js >> build/compiler.js
-cat lexer.js >> build/compiler.js
-cat parser.js >> build/compiler.js
-cat emitter.js >> build/compiler.js
+outputDirectory="build"
+output="build/compiler.js"
+
+mkdir -p $outputDirectory;
+
+echo $code > $output
+echo $args >> $output
+cat console.js >> $output
+cat errors.js >> $output
+cat tokent.js >> $output
+cat token.js >> $output
+cat regex.js >> $output
+cat lexer.js >> $output
+cat parser.js >> $output
+cat emitter.js >> $output
+
+node $output
