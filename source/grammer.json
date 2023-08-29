@@ -1,0 +1,51 @@
+{
+  "keyword": {
+    "": {
+      "data": true,
+      "name": "name",
+      "child": {
+        "separator": {
+          ".": {
+            "backward": -1
+          }
+        },
+        "assignment": {
+          "type": "assignment"
+        },
+        "break": {
+          "type": "call",
+          "end": true
+        },
+        "": {
+          "": {
+            "type": "call",
+            "require": "argument"
+          }
+        }
+      }
+    }
+  },
+  "register": {
+    "same": "keyword"
+  },
+  "parameter": {
+    "struct": {
+      "keyword": {
+        "": {
+          "name": "argument",
+          "data": true,
+          "child": {
+            "separator": {
+              ",": {
+                "backward": -1
+              }
+            },
+            "": {
+              "end": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

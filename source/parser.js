@@ -16,6 +16,7 @@ class Parser {
   }
 
   get trace () {
+    this.push;
 
   }
 
@@ -23,3 +24,4 @@ class Parser {
     this.lexer = new this.lexer;
   }
 }
+

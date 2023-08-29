@@ -8,5 +8,10 @@ class Regex {
   static numstart = /[0-9.]/
   static hexstart = "0x"
   static binstart = "0b"
+  static hexbody = /0-9a-fA-F/;
+  static binbody = /0-1/;
+  static numbody = /0-9/;
+  static strstart = /[\'\"]/;
+  static numsubone = '.';
 }
 

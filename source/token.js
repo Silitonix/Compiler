@@ -1,5 +1,5 @@
 class Token {
-  static break = new Token( TokenT.break );
+  static break = new Token( T.break );
 
   constructor ( type, data, col, row, len ) {
     this.type = type;

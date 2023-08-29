@@ -1,0 +1,2 @@
+bios.write "!"
+bios.boot
