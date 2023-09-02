@@ -1,3 +1,4 @@
-package*
-node_modules
 build
+package-lock.json
+package.json
+node_modules
