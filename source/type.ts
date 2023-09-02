@@ -16,4 +16,4 @@ enum TokenType {
   'end'
 }
 type numstr = number|string;
-type regstr = Regex|string;
+type regstr = RegExp|string;

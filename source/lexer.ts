@@ -7,9 +7,9 @@ class Lexer {
   data: numstr;
   memory = { start: 0, row: 0, col: 0, char: '' };
 
-  get char(): string { return code[this.cursor]; }
+  get char(): string { return this.code[this.cursor]; }
   get end(): boolean {
-    const check = !(this.cursor < code.length);
+    const check = !(this.cursor < this.code.length);
     if (check) {
       this.tokenize = TokenType.end;
     }
@@ -22,11 +22,11 @@ class Lexer {
     this.memory.col = this.col;
     return this.memory;
   }
-  get path():string {
+  get path(): string {
     return `${filename}:${this.row}:${this.col}`;
   }
 
-  get push():boolean {
+  get push(): boolean {
     if (this.same(Regex.newline)) {
       this.col = 1;
       this.row++;
@@ -38,16 +38,16 @@ class Lexer {
     return false;
   }
 
-  same(str:regstr, offset = 0) {
+  same(str: regstr, offset = 0) {
     if (this.end) return false;
     if (typeof str == "string") {
-      return code.substring(
+      return this.code.substring(
         this.cursor + offset,
         this.cursor + offset + str.length
       ) == str;
     }
     if (typeof str == "object") {
-      return code[this.cursor + offset].match(str);
+      return this.code[this.cursor + offset].match(str);
     }
   }
 
@@ -64,7 +64,7 @@ class Lexer {
     const end = this.cursor;
     const col = this.memory.col;
     const row = this.memory.row;
-    let data = code.substring(start, end);
+    let data: numstr = this.code.substring(start, end);
     const len = data.length;
 
     if (type === TokenType.number) {
@@ -234,6 +234,6 @@ class Lexer {
   }
 
   constructor(code: string) {
-    this.code = code;
+    this.code = this.code;
   }
 }
