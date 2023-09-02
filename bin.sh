@@ -1,5 +1,7 @@
 #!/bin/sh
 
+scriptDirectory="$(dirname "$(readlink -f "$0")")"
+
 # STORE AND CHANGE THE IFS VARIABLE
 DefaultIFS=$IFS
 IFS=','
@@ -11,8 +13,8 @@ code="const code = \`$([ $# -gt 0 ] && [ -f $1 ] && cat $1 || echo '¡')\`;";
 args="const args = \`$*\`.split('$IFS');";
 
 # DEFINE FILE AND DIRECTORY PATHS
-outputDirectory="build"
-sourceDirectory="source"
+outputDirectory="$scriptDirectory/build"
+sourceDirectory="$scriptDirectory/source"
 outputScript="$outputDirectory/compiler.js"
 
 # CREATE BUILD DIRECTORY IF NOT EXIST
@@ -23,6 +25,7 @@ echo $code > $outputScript
 echo $args >> $outputScript
 
 # CONCATENATING THE SCRIPT TO THE OUTPUT FILE
+cat "$sourceDirectory/grammer.js" >> $outputScript
 cat "$sourceDirectory/console.js" >> $outputScript
 cat "$sourceDirectory/errors.js" >> $outputScript
 cat "$sourceDirectory/tokent.js" >> $outputScript
@@ -38,3 +41,6 @@ node $outputScript
 
 # RESTORE DEFAULT VALUE OF IFS
 IFS=$DefaultIFS
+
+rm -r $outputDirectory
+

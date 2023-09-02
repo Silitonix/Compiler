@@ -11,7 +11,8 @@ class T {
   static comparison = new T( 'comparison' );
   static separator = new T( 'separator' );
   static bitwise = new T( 'bitwise' );
-  static bitwise = new T( 'end' );
+  static open = new T( 'open' );
+  static close = new T( 'close' );
 
   constructor ( name ) {
     this.name = name;

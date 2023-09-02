@@ -1,2 +1,4 @@
-bios.write "!"
-bios.boot
+print :
+  string format = "" {
+    
+  }

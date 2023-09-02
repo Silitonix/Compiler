@@ -1,4 +1,4 @@
-const filename =args[0];
+const filename = args[ 0 ];
 
 if (
   args.includes( '-h' ) ||

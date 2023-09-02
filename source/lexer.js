@@ -202,13 +202,19 @@ class Lexer {
       ',': T.separator,
       '.': T.separator,
       ':': T.separator,
+
+      '{': T.open,
+      '(': T.open,
+      '[': T.open,
+      ']': T.close,
+      ')': T.close,
+      '}': T.close,
     };
 
     for ( const operator in operators ) {
       if ( !this.same( operator ) ) continue;
       this.save;
       for ( let i = 0; i < operator.length; i++ ) this.push;
-      console.log( operators[ '.' ] );
       this.tokenize = operators[ `${ operator }` ];
       return true;
     }
