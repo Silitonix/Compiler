@@ -1,17 +1,17 @@
-const args = Bun.argv.slice(2);
-const filename = args[0];
-
-if (
-  args.includes('-h') ||
-  args.includes('--help') ||
-  !filename
-) {
-  Console.help();
-}
-
-const file = Bun.file(filename);
-
 async function compile() {
+  const args = Bun.argv.slice(2);
+  
+  const filename = args[0];
+
+  if (
+    args.includes('-h') ||
+    args.includes('--help') ||
+    !filename
+  ) {
+    Console.help();
+  }
+
+  const file = Bun.file(filename);
   const exist = await file.exists();
   if (!exist) {
     Console.error("FILE NOT FOUND : ", "I cant find your file !");
@@ -22,7 +22,7 @@ async function compile() {
     Console.error("NO CODE FOUND : ", "There is nothing to read");
   }
 
-  const emmiter = new Emitter(code);
+  const emmiter = new Emitter(code, filename);
 }
 
 compile();

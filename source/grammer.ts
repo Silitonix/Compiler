@@ -7,7 +7,7 @@ Grammer.$keyword = {
     branch: {
       $string: {
         store: true,
-        name: "path",
+        name: "filename",
         return: async function ({ path: filename }) {
           const file = Bun.file(filename);
           const exist = await file.exists();

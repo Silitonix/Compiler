@@ -24,7 +24,7 @@ class Lexer {
     return this.memory;
   }
   get path(): string {
-    return `${filename}:${this.row}:${this.col}`;
+    return `${this.filename}:${this.row}:${this.col}`;
   }
 
   get push(): boolean {
