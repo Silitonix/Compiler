@@ -4,6 +4,6 @@ class Emitter {
 
   constructor(code: string,filename:string) {
     this.parser = new Parser(code,filename);
-    this.tree.push(...this.parser.trace(Grammer));
+    this.tree.push(...this.parser.grow(Grammer));
   }
 }

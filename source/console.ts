@@ -19,7 +19,7 @@ class Console {
 
   static error(title, msg): never {
     console.log('\n\x1b[1;31m%s\x1b[0m%s\n', title, msg);
-    process.exit();
+    process.exit(1);
   }
 
   static help(): never {

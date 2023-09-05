@@ -25,8 +25,15 @@ echo "\nBuilding program : \n"
 bun build "./$outfile.ts" --compile --minify --outfile $outfile
 
 # REMOVE SCRTIPT FILE
-rm "./$outfile.ts"
+
+# RUNNING EXAMPLE
+cd ./examples;
 
 echo "\nRunning program : \n"
-"./$outfile" $1
+"../$outfile" $1
 echo
+
+cd ..;
+
+rm "./$outfile.ts"
+exit
