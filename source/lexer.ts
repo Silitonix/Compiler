@@ -1,4 +1,5 @@
 class Lexer {
+  filename:string;
   code: string;
   cursor = 0;
   col = 1;
@@ -233,7 +234,8 @@ class Lexer {
     Console.error("INVALID CHARACTER : ", this.path);
   }
 
-  constructor(code: string) {
+  constructor(code: string,filename:string) {
+    this.filename = filename;
     this.code = code;
   }
 }

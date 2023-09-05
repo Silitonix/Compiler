@@ -4,7 +4,7 @@ outdir="build"
 outfile="$outdir/compiler"
 srcdir="source"
 
-
+clear;
 
 mkdir -p $outdir
 
@@ -20,12 +20,13 @@ cat "$srcdir/parser.ts" >> "$outfile.ts"
 cat "$srcdir/emitter.ts" >> "$outfile.ts"
 cat "$srcdir/compiler.ts" >> "$outfile.ts"
 
-echo "\nBuilding program\n"
+echo "\nBuilding program : \n"
 # CREATE EXECUTABLE
 bun build "./$outfile.ts" --compile --minify --outfile $outfile
 
 # REMOVE SCRTIPT FILE
 rm "./$outfile.ts"
 
-echo "\nRunning program\n"
-exec "./$outfile"
+echo "\nRunning program : \n"
+"./$outfile" $1
+echo
