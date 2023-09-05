@@ -1,5 +1,5 @@
 class Lexer {
-  filename:string;
+  filename: string;
   code: string;
   cursor = 0;
   col = 1;
@@ -51,11 +51,22 @@ class Lexer {
       return this.code[this.cursor + offset].match(str);
     }
   }
-
+  notSame(str: regstr, offset = 0) {
+    if (this.end) return false;
+    if (typeof str == "string") {
+      return this.code.substring(
+        this.cursor + offset,
+        this.cursor + offset + str.length
+      ) != str;
+    }
+    if (typeof str == "object") {
+      return !this.code[this.cursor + offset].match(str);
+    }
+  }
   get ignore() {
     while (this.same(Regex.ignore)) {
       if (this.same(Regex.comment)) while (!this.push);
-      if (this.same(Regex.momment)) do this.push; while (!this.same(Regex.momment));
+      if (this.same(Regex.momment)) { do this.push; while (this.notSame(Regex.momment)) }
       if (this.push) return this.buffer = Token.break;
     }
   }
@@ -96,7 +107,7 @@ class Lexer {
       'ss', 'cs', 'ds', 'es', 'fs', 'gs'
     ];
 
-    if (!this.same(Regex.keystart)) return;
+    if (this.notSame(Regex.keystart)) return;
     this.save;
     do this.push; while (this.same(Regex.keybody));
     this.tokenize = TokenType.keyword;
@@ -108,7 +119,7 @@ class Lexer {
   }
 
   get number() {
-    if (!this.same(Regex.numstart)) return;
+    if (this.notSame(Regex.numstart)) return;
 
     if (this.same(Regex.hexstart)) {
       this.push;
@@ -122,7 +133,7 @@ class Lexer {
       return this.tokenize = TokenType.number;
     }
 
-    if (this.same(Regex.numsubone) && !this.same(Regex.numbody, 1)) {
+    if (this.same(Regex.numsubone) && this.notSame(Regex.numbody, 1)) {
       return;
     }
 
@@ -137,11 +148,11 @@ class Lexer {
 
   get string() {
 
-    if (!this.same(Regex.strstart)) return;
+    if (this.notSame(Regex.strstart)) return;
     const strcharcter = this.char;
     this.push;
     this.save;
-    do this.push; while (!this.same(strcharcter));
+    do this.push; while (this.notSame(strcharcter));
     this.tokenize = TokenType.string;
     if (`${this.data}`.length == 1) this.buffer.type = TokenType.character;
     this.push;
@@ -214,7 +225,7 @@ class Lexer {
     };
 
     for (const operator in operators) {
-      if (!this.same(operator)) continue;
+      if (this.notSame(operator)) continue;
       this.save;
       for (let i = 0; i < operator.length; i++) this.push;
       this.tokenize = operators[`${operator}`];
@@ -234,7 +245,7 @@ class Lexer {
     Console.error("INVALID CHARACTER : ", this.path);
   }
 
-  constructor(code: string,filename:string) {
+  constructor(code: string, filename: string) {
     this.filename = filename;
     this.code = code;
   }

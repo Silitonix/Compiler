@@ -24,11 +24,10 @@ class Parser {
   }
 
   goup(node) {
-    this.push;
-
     this.root = node[`${this.selector}`];
 
     if (!this.root) {
+      console.log(this.token);
       Console.error("SYNTAX ERROR : ", this.path);
     }
 
@@ -38,23 +37,34 @@ class Parser {
 
   }
 
-  trace(node: object) {
-
-    this.goup(node);
-
+  async trace(node: object) {
+    do this.push; while (this.type == TokenType.break)
+    this.goup(node)
     const inputs = {}
 
     while (true) {
       if (this.root.name) inputs[`${this.root.name}`] = this.data;
-      if (this.root.return) return this.root.return(inputs);
-      if (this.root.branch) this.goup(this.root.branch);
+      if (this.root.return) {
+        const product = await this.root.return(inputs);
+        return product;
+      }
+      if (this.root.branch) {
+        this.push;
+        this.goup(this.root.branch);
+        continue;
+      }
+      Console.error("SYNTAX ERROR : ", this.path);
     }
+
   }
 
-  grow(Grammer) {
+  async grow(Grammer) {
     const output = [];
 
-    output.push(this.trace(Grammer))
+    while (this.type != TokenType.end) {
+      const product = await this.trace(Grammer);
+      output.push(product)
+    }
 
     return output;
   }

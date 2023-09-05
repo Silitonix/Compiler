@@ -1,11 +1,20 @@
 const Grammer = {
   $keyword: {
     name: "data",
+    branch: {
+      $separator: {
+        ".": {
+          goto: ["$keyword"]
+        }
+      }
+    },
+    // import new script into code
     _import: {
       branch: {
         $string: {
           name: "filename",
           return: async function ({ filename }) {
+            // read file and make new parser
             filename += ".sx";
             const file = Bun.file(filename);
             const exist = await file.exists();

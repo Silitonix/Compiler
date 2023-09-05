@@ -22,7 +22,7 @@ cat "$srcdir/compiler.ts" >> "$outfile.ts"
 
 echo "\nBuilding program : \n"
 # CREATE EXECUTABLE
-bun build "./$outfile.ts" --compile --minify --outfile $outfile
+bun build "./$outfile.ts" --compile --outfile $outfile
 
 # REMOVE SCRTIPT FILE
 
