@@ -1,12 +1,12 @@
 class Parser {
-  lexer:Lexer;
-  token:Token;
-  data:numstr;
-  type:TokenType;
-  col:number;
-  row:number;
+  lexer: Lexer;
+  token: Token;
+  data: numstr;
+  type: TokenType;
+  col: number;
+  row: number;
 
-  get push () {
+  get push() {
     this.token = this.lexer.scan();
     this.data = this.token.data;
     this.col = this.token.col;
@@ -15,12 +15,13 @@ class Parser {
     return this.token;
   }
 
-  get trace () {
+  trace(node: object) {
     this.push;
-    return true;
+
+    return [];
   }
 
-  constructor (code:string) {
+  constructor(code: string) {
     this.lexer = new Lexer(code);
   }
 }

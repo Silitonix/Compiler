@@ -234,6 +234,6 @@ class Lexer {
   }
 
   constructor(code: string) {
-    this.code = this.code;
+    this.code = code;
   }
 }

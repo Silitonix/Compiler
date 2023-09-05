@@ -1,13 +1,32 @@
 const Grammer = {
-  keyword:{},
-  defineParameter:{},
-  expression:{},
-  reserve:{},
-  arguments:{}
+  keyword: {},
+  defineParameter: {},
+  expression: {},
+  reserve: {},
+  arguments: {}
 };
 
 Grammer.keyword = {
   type: "name",
+  "import": {
+    branches: {
+      type: "data",
+      string: {
+        return: async ({ data }) => {
+          const file = Bun.file(data);
+
+          if (!file.exists()) Console.error("FILE NOT FOUND : ", "Import error file not found");
+
+          const code = await file.text();
+          const parser = new Parser(code);
+          const tree = parser.trace(Grammer);
+
+          return tree;
+        }
+      }
+    }
+  },
+
   branches: {
     separator: {
       ".": {
@@ -77,7 +96,7 @@ Grammer.defineParameter = {
               count: 0,
               imprtant: false,
               invalid: {
-                type: [ "assingment" ]
+                type: ["assingment"]
               }
             }
           }
@@ -105,7 +124,7 @@ Grammer.expression = {
   keyword: {
     follow: Grammer.keyword,
     invalid: {
-      work: [ "defineFunction" ]
+      work: ["defineFunction"]
     }
   }
 };
