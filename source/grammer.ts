@@ -8,8 +8,11 @@ const Grammer = {
         }
       }
     },
-    // import new script into code
     _import: {
+      start: {
+        index: 0,
+        fail: ["$keyword"]
+      },
       branch: {
         $string: {
           name: "filename",

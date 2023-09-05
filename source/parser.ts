@@ -38,11 +38,18 @@ class Parser {
   }
 
   async trace(node: object) {
+
     do this.push; while (this.type == TokenType.break)
-    this.goup(node)
+    this.goup(node);
+    let index = 0;
     const inputs = {}
 
     while (true) {
+      if (this.root.start && index !== this.root.start.index) {
+        const key = this.root.start.goto;
+        this.root = key.reduce((obj, prop) => obj[prop], Grammer);
+      }
+
       if (this.root.name) inputs[`${this.root.name}`] = this.data;
       if (this.root.return) {
         const product = await this.root.return(inputs);

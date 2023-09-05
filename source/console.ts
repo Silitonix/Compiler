@@ -1,23 +1,23 @@
-class Colors {
-  static black = 0;
-  static red = 1;
-  static green = 2;
-  static yellow = 3;
-  static blue = 4;
-  static purple = 5;
-  static cyan = 6;
-  static white = 7;
+enum Colors {
+  black,
+  red,
+  green,
+  yellow,
+  blue,
+  purple,
+  cyan,
+  white,
 }
 
 class Console {
-  static title(source, color = Colors.white) {
+  static title(source: string, color = Colors.white) {
     console.log(`\n\x1b[1;${color + 30}m${source}\x1b[0m`);
   }
-  static print(source, color = Colors.black) {
+  static print(source: string, color = Colors.black) {
     console.log(`\x1b[0;${color + 30}m${source}\x1b[0m`);
   }
 
-  static error(title, msg): never {
+  static error(title: string, msg: string): never {
     console.log('\n\x1b[1;31m%s\x1b[0m%s\n', title, msg);
     process.exit(1);
   }
