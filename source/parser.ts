@@ -1,4 +1,5 @@
-class Parser {
+class Parser
+{
   filename: string;
   lexer: Lexer;
   token: Token;
@@ -8,56 +9,76 @@ class Parser {
   row: number;
   col: number;
   root;
-  get path(): string {
-    return `${this.filename}:${this.row}:${this.col}`;
+  get path(): string
+  {
+    return `${ this.filename }:${ this.row }:${ this.col }`;
   }
 
-  get push() {
+  get push()
+  {
     this.token = this.lexer.scan();
 
     this.data = this.token.data;
     this.col = this.token.col;
     this.row = this.token.row;
     this.type = this.token.type;
-    this.selector = `$${TokenType[this.type]}`;
+    this.selector = `$${ TokenType[ this.type ] }`;
     return this.token;
   }
 
-  goup(node) {
-    this.root = node[`${this.selector}`];
+  goup(node)
+  {
+    this.root = node[ `${ this.selector }` ];
 
     if (!this.root) {
-      console.log(this.token);
       Console.error("SYNTAX ERROR : ", this.path);
     }
 
-    let data = this.root[`_${this.data}`];
+    let data = this.root[ `_${ this.data }` ];
 
     if (data) this.root = data;
 
   }
 
-  async trace(node: object) {
+  async trace(node: object)
+  {
 
-    do this.push; while (this.type == TokenType.break)
+    do this.push; while (this.type == TokenType.break);
     this.goup(node);
     let index = 0;
-    const inputs = {}
+    const inputs = {};
 
     while (true) {
       if (this.root.start && index !== this.root.start.index) {
-        const key = this.root.start.goto;
-        this.root = key.reduce((obj, prop) => obj[prop], Grammer);
+        this.root = this.root.start;
+      }
+      if (this.root.push) {
+        this.push;
+      }
+      if (this.root.goto) {
+        const keys = this.root.goto;
+        this.root = Grammer;
+        for (const i in keys) {
+          this.root = this.root[ keys[ i ] ];
+        }
       }
 
-      if (this.root.name) inputs[`${this.root.name}`] = this.data;
+      if (this.root.name) {
+        if (inputs[ `${ this.root.name }` ]) {
+          inputs[ `${ this.root.name }` ].push(this.data);
+        } else {
+          inputs[ `${ this.root.name }` ] = [ this.data ];
+        }
+      }
       if (this.root.return) {
         const product = await this.root.return(inputs);
         return product;
       }
+
       if (this.root.branch) {
         this.push;
         this.goup(this.root.branch);
+        index++;
         continue;
       }
       Console.error("SYNTAX ERROR : ", this.path);
@@ -65,18 +86,20 @@ class Parser {
 
   }
 
-  async grow(Grammer) {
+  async grow(Grammer)
+  {
     const output = [];
 
     while (this.type != TokenType.end) {
       const product = await this.trace(Grammer);
-      output.push(product)
+      output.push(product);
     }
 
     return output;
   }
 
-  constructor(code: string, filename: string) {
+  constructor (code: string, filename: string)
+  {
     this.filename = filename;
     this.lexer = new Lexer(code, filename);
   }
