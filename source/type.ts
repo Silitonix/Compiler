@@ -1,0 +1,1 @@
+type RegStr = RegExp | string;
